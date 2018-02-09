@@ -1,0 +1,85 @@
+<h1>Dash Board</h1>
+
+<div style = "text-align:center" class = "spinner" ng-show = "loading"> 
+        <img src="loader.gif"/>
+</div>
+
+<div style="width:90%; margin-left: auto; margin-right: auto;" ng-hide = "loading">
+<div class="col-sm-12" style="table-layout: fixed; height: 300px; width: 500px;">
+    <div class="panel panel-primary">
+    <div class="panel-heading"><h4>Warehouse 1</h4></div>
+        <table class="table table-hover">
+            <thead></thead>
+            <tbody>
+                <tr ng-repeat="asset in filtered_assets" ng-if="asset.location == 'Warehouse 1'">
+                    <td ng-repeat="field in fields" ng-if="field.location != '_id'" class="cutOverflow">{{$parent.asset[field.name]}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="col-sm-12" style="table-layout: fixed; height: 300px; width: 500px;">
+    <div class="panel panel-primary">
+    <div class="panel-heading"><h4>Warehouse 2</h4></div>
+        <table class="table table-hover">
+            <thead></thead>
+            <tbody>
+                <tr ng-repeat="asset in filtered_assets" ng-if="asset.location == 'Warehouse 2'">
+                    <td ng-repeat="field in fields" ng-if="field.location != '_id'" class="cutOverflow">{{$parent.asset[field.name]}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="col-sm-12" style="table-layout: fixed; height: 300px; width: 500px;">
+    <div class="panel panel-primary">
+    <div class="panel-heading"><h4>Warehouse 3</h4></div>
+        <table class="table table-hover">
+            <thead></thead>
+            <tbody>
+                <tr ng-repeat="asset in filtered_assets" ng-if="asset.location == 'Warehouse 3'">
+                    <td ng-repeat="field in fields" ng-if="field.location != '_id'" class="cutOverflow">{{$parent.asset[field.name]}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="col-sm-12" style="table-layout: fixed; height: 300px; width: 500px;">
+    <div class="panel panel-primary">
+    <div class="panel-heading"><h4>Warehouse 4</h4></div>
+        <table class="table table-hover">
+            <thead></thead>
+            <tbody>
+                <tr ng-repeat="asset in filtered_assets" ng-if="asset.location == 'Warehouse 4'">
+                    <td ng-repeat="field in fields" ng-if="field.location != '_id'" class="cutOverflow">{{$parent.asset[field.name]}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="col-sm-12" style="table-layout: fixed; height: 300px; width: 500px;">
+    <div class="panel panel-primary">
+    <div class="panel-heading"><h4>Warehouse 5</h4></div>
+        <table class="table table-hover">
+            <thead></thead>
+            <tbody>
+                <tr ng-repeat="asset in filtered_assets" ng-if="asset.location == 'Warehouse 5'">
+                    <td ng-repeat="field in fields" ng-if="field.location != '_id'" class="cutOverflow">{{$parent.asset[field.name]}}</td>
+                    
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</div>
