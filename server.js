@@ -82,6 +82,8 @@ app.route('/superhero')
     .get(superhero.getAll);
 app.route('/superhero/:id')
     .get(superhero.getOne);
+app.route('/superhero/email')
+    .get(superhero.getOneByEmail);
 //end of THIS
 
 

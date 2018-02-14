@@ -19,6 +19,7 @@ var deviceSchema = new mongoose.Schema({
 //THIS added by dyano for uploading image please change variable names
 // Defines the superhero schema
 var SuperheroSchema = new Schema({
+    email: {type: String, required: true},
     picture: {type: Schema.Types.Mixed, required: true},
     createdAt: {type: Date, default: Date.now},    
 });

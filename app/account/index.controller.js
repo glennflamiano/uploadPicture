@@ -31,19 +31,23 @@
         $scope.aUsers = {};
         $scope.profilePicUrl = '';
         $scope.uploading = false; 
+        $scope.currentPic = {};
 
+        function initSuperHero(){
         //THIS added by dyano for uploading image please change variable names
                 $scope.superhero = {};
 
                 //Send the newly created superhero to the server to store in the db
                 $scope.createSuperhero = function(){
+                    console.log('superhero ', $scope.superhero);
                     $http.post('/superhero', $scope.superhero).then(function(data){
-                                console.log(JSON.stringify(data));
+                                //console.log(JSON.stringify(data));
                                 //Clean the form to allow the user to create new superheroes
                                 $scope.superhero = {};
+                                getProfilePic();
                         });
-                };
 
+                };
                 //Single file upload, you can take a look at the options
                 $scope.upload = function(){
                     filepickerService.pick(
@@ -51,26 +55,54 @@
                             mimetype: 'image/*',
                             language: 'en',
                             services: ['COMPUTER'],
-                            openTo: 'COMPUTER'
+                            openTo: 'COMPUTER',
+                            conversions: ['crop', 'rotate', 'filter']
                         },
                         function(Blob){
-                            console.log(JSON.stringify(Blob));
+                            //console.log(JSON.stringify(Blob));
                             $scope.superhero.picture = Blob;
+                            $scope.superhero.email = $scope.aUsers.email;
                             $scope.$apply();
                         }
                     );
                 };
+                //Crop image
+                $scope.cropImage = function(){
+                    var url = document.getElementById("userPic").src;
+                    filepicker.processImage(
+                      url,
+                      {
+                        conversions: ['rotate', 'crop', 'filter']
+                      },
+                      function(Blob){
+                        console.log(JSON.stringify(Blob));
+                        $scope.superhero.picture = Blob;
+                        $scope.superhero.email = $scope.aUsers.email;
+                        $scope.$apply();
+                      }
+                    );
+                };
 
-                //Retrieve all the superheroes to show the gallery
-                $http.get('/superhero')
-                .then(function(data){
-                    console.log(JSON.stringify(data));
-                    $scope.superheroes = data;
-                    console.log($scope.superheroes);
-                });
         //end of THIS
+        }
+
+        function getProfilePic(){
+            $http.get('/superhero')
+            .then(function(data){
+                //console.log(JSON.stringify(data));
+                $scope.superheroes = data;
+                console.log(data);
+                //load specific profile pic in gallery based on email
+                for(var i=0; i<data.data.length;i++){
+                    if(data.data[i].email == $scope.aUsers.email){
+                        $scope.currentPic = data.data[i];
+                    }
+                }
+            });
+        }
  
         function initController() {
+            //console.log($rootScope);
             // get current user
             UserService.GetCurrent().then(function (user) {
                 vm.user = user;
@@ -81,7 +113,23 @@
                     $scope.modalPic = '';
                 }
                 $scope.modalPic = user.profilePicUrl;
+                console.log($scope.aUsers.email);
+
+                //Retrieve all the superheroes to show the gallery
+                $http.get('/superhero')
+                .then(function(data){
+                    //console.log(JSON.stringify(data));
+                    $scope.superheroes = data;
+                    console.log(data);
+                    //load specific profile pic in gallery based on email
+                    for(var i=0; i<data.data.length;i++){
+                        if(data.data[i].email == $scope.aUsers.email){
+                            $scope.currentPic = data.data[i];
+                        }
+                    }
+                });
             });
+            initSuperHero();
         }
 
         $scope.id = "";

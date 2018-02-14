@@ -4,53 +4,64 @@
 <div class="flash-message" ng-if="flash">
     <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
 </div>
-
-<!-- THIS added by dyano for uploading image please change variable names -->
-<div class="col-md-8 col-md-offset-2">
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h2 class="panel-title text-center">
-                <span class="glyphicon glyphicon-user"></span>Superhero form 
-            </h2>
+<div class='col-md-5'>
+    <div class="row">
+        <div class="avatar-circle-big" ng-style="bgColor" ng-show="currentPic.picture.url == ''">
+            <span class="initials-big noselect">{{initials}}</span>
         </div>
-        <div class="panel-body">
-            <!-- The form to add superheroes information -->
-            <form name ="addForm" novalidate>
-                <div class="form-group">
-                    <label for="picture">Main picture</label>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-default" ng-click="upload()">
-                            Upload <span class="caret"></span>
-                        </button>
-                        <div style="margin-top:10px;">
-                            <!-- Show the thumbnail only when the picture is uploaded -->
-                            <a href="{{superhero.picture.url}}" class="thumbnail" ng-if="superhero.picture">
-                            <!-- the picture is rendered with width: 500 and sharpened -->
-                            <img ng-src="{{superhero.picture.url | fpConvert: {filter:'sharpen'} }}">
-                            </a>
-                        </div>                  
+        <img id="userPic" class="avatar-circle-big" ng-src="{{currentPic.picture.url}}" ng-show="currentPic.picture.url !== ''">
+    </div><br>
+
+    <!-- THIS added by dyano for uploading image please change variable names -->
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title text-center">
+                    Update Profile Picture
+                </h2>
+            </div>
+            <div class="panel-body">
+                <!-- The form to add superheroes information -->
+                <form name ="addForm" novalidate>
+                    <div class="form-group">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-default" ng-click="upload()">
+                                Browse <span class="caret"></span>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="cropImage()">
+                                Crop <span class="caret"></span>
+                            </button>
+                            <div style="margin-top:10px;">
+                                <!-- Show the thumbnail only when the picture is uploaded -->
+                                <a href="{{superhero.picture.url}}" class="thumbnail" ng-if="superhero.picture">
+                                <!-- the picture is rendered with width: 500 and sharpened -->
+                                <img ng-src="{{superhero.picture.url | fpConvert: {filter:'sharpen'} }}">
+                                </a>
+                            </div>                  
+                        </div>
                     </div>
-                </div>
-                <hr />              
-                <button type="submit" class="btn btn-danger btn-block" ng-click="createSuperhero()" ng-disabled="superhero.$invalid || !superhero.picture">Submit</button>             
-            </form>
+                    <hr />              
+                    <button type="submit" class="btn btn-danger btn-block" ng-click="createSuperhero()" ng-disabled="superhero.$invalid || !superhero.picture">Update</button>             
+                </form>
+            </div>
         </div>
     </div>
 </div>
+
 <!-- view the gallery of all the superheroes in the db -->
-<div class="row">
+<!--<div class="row">
     <div ng-repeat="superhero in superheroes.data">
         <div class="col-md-4 col-xs-6 col-sm-offset-0">            
         <div class="thumbnail">
           <img ng-src="{{superhero.picture.url | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
           <div class="caption text-center">
-              {{initials}}
+              {{superhero.email}}
           </div>
         </div>
         </div>  
     </div>
   </div>
-</div>
+</div>-->
 <!-- end of THIS -->
 
 
@@ -65,25 +76,29 @@
     </div>
 
     <div class="modal-body">
-        <div ng-show="showAddFlash" class="flash-message" ng-if="flash">
-            <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
-        </div>
-        <form name = "updateProfilePicForm">
-            <img ng-src="{{modalPic}}" ng-show="modalPic !== ''">
+        <form name ="addForm" novalidate>
+            <div class="form-group">
+                <label for="picture">Main picture</label>
+                <div class="text-center">
+                    <button type="button" class="btn btn-default" ng-click="upload()">
+                        Upload <span class="caret"></span>
+                    </button>
+                    <div style="margin-top:10px;">
+                        <!-- Show the thumbnail only when the picture is uploaded -->
+                        <a href="{{superhero.picture.url}}" class="thumbnail" ng-if="superhero.picture">
+                        <!-- the picture is rendered with width: 500 and sharpened -->
+                        <img ng-src="{{superhero.picture.url | fpConvert: {filter:'sharpen'} }}">
+                        </a>
+                    </div>                  
+                </div>
+            </div>
+            <hr />              
+                         
         </form>
-    </div>
-    <div ng-show="uploading" class="progress">
-        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-            <span class="sr-only">45% Complete</span>
-        </div>
     </div>
     <div class="modal-footer" >
         <!--<button class="btn btn-success" ng-click="addUser()">Browse</button>-->
-        <label class="btn btn-success">
-            Browse
-            <input type="file" ng-disabled="uploading" file-model="file.upload" name="myfile" style="display: none;" onchange="angular.element(this).scope().photoChanged(this.files)">
-        </label>
-        <button class="btn btn-primary" ng-click="Submit()">Save</button>
+        <button type="submit" class="btn btn-danger" ng-click="createSuperhero()" ng-disabled="superhero.$invalid || !superhero.picture">Submit</button>
         <button type="button" class="btn btn-danger" ng-click="vm.restart()" data-dismiss="modal">Close</button>
         <br>
     </div>
@@ -94,15 +109,15 @@
 
 
 <div class="row">
-    <div class="col-md-3">
+    <!--<div class="col-md-3">
         <br/>
-        <div class="avatar-circle-big" ng-style="bgColor" ng-show="profilePicUrl == ''">
+        <div class="avatar-circle-big" ng-style="bgColor" ng-show="currentPic.picture.url == ''">
             <span class="initials-big noselect">{{initials}}</span>
         </div>
-        <img class="avatar-circle-big" ng-src="{{profilePicUrl}}" ng-show="profilePicUrl !== ''">
+        <img class="avatar-circle-big" ng-src="{{currentPic.picture.url}}" ng-show="currentPic.picture.url !== ''">
         <br><br>
         <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Update Profile Picture</button>
-    </div>
+    </div>-->
     
     <div class="col-md-1"></div>
     <div class="col-md-1 hidden-md hidden-s hidden-lg"><hr class="hr"></div>
