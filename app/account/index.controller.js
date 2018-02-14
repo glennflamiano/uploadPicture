@@ -22,7 +22,7 @@
             };
         }]);
  
-    function Controller($window, UserService, FlashService, $scope, FieldsService, $timeout) {
+    function Controller($window, UserService, FlashService, $scope, FieldsService, $timeout, $http, filepickerService) {
         var vm = this;
  
         vm.user = null;
@@ -31,6 +31,44 @@
         $scope.aUsers = {};
         $scope.profilePicUrl = '';
         $scope.uploading = false; 
+
+        //THIS added by dyano for uploading image please change variable names
+                $scope.superhero = {};
+
+                //Send the newly created superhero to the server to store in the db
+                $scope.createSuperhero = function(){
+                    $http.post('/superhero', $scope.superhero).then(function(data){
+                                console.log(JSON.stringify(data));
+                                //Clean the form to allow the user to create new superheroes
+                                $scope.superhero = {};
+                        });
+                };
+
+                //Single file upload, you can take a look at the options
+                $scope.upload = function(){
+                    filepickerService.pick(
+                        {
+                            mimetype: 'image/*',
+                            language: 'en',
+                            services: ['COMPUTER'],
+                            openTo: 'COMPUTER'
+                        },
+                        function(Blob){
+                            console.log(JSON.stringify(Blob));
+                            $scope.superhero.picture = Blob;
+                            $scope.$apply();
+                        }
+                    );
+                };
+
+                //Retrieve all the superheroes to show the gallery
+                $http.get('/superhero')
+                .then(function(data){
+                    console.log(JSON.stringify(data));
+                    $scope.superheroes = data;
+                    console.log($scope.superheroes);
+                });
+        //end of THIS
  
         function initController() {
             // get current user

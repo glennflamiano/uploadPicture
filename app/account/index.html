@@ -5,6 +5,55 @@
     <div class="{{'alert alert-' + flash.type}}" ng-bind="flash.message"></div>
 </div>
 
+<!-- THIS added by dyano for uploading image please change variable names -->
+<div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title text-center">
+                <span class="glyphicon glyphicon-user"></span>Superhero form 
+            </h2>
+        </div>
+        <div class="panel-body">
+            <!-- The form to add superheroes information -->
+            <form name ="addForm" novalidate>
+                <div class="form-group">
+                    <label for="picture">Main picture</label>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-default" ng-click="upload()">
+                            Upload <span class="caret"></span>
+                        </button>
+                        <div style="margin-top:10px;">
+                            <!-- Show the thumbnail only when the picture is uploaded -->
+                            <a href="{{superhero.picture.url}}" class="thumbnail" ng-if="superhero.picture">
+                            <!-- the picture is rendered with width: 500 and sharpened -->
+                            <img ng-src="{{superhero.picture.url | fpConvert: {filter:'sharpen'} }}">
+                            </a>
+                        </div>                  
+                    </div>
+                </div>
+                <hr />              
+                <button type="submit" class="btn btn-danger btn-block" ng-click="createSuperhero()" ng-disabled="superhero.$invalid || !superhero.picture">Submit</button>             
+            </form>
+        </div>
+    </div>
+</div>
+<!-- view the gallery of all the superheroes in the db -->
+<div class="row">
+    <div ng-repeat="superhero in superheroes.data">
+        <div class="col-md-4 col-xs-6 col-sm-offset-0">            
+        <div class="thumbnail">
+          <img ng-src="{{superhero.picture.url | fpConvert: {filter:'sharpen', w:300, h:150} }}" />
+          <div class="caption text-center">
+              {{initials}}
+          </div>
+        </div>
+        </div>  
+    </div>
+  </div>
+</div>
+<!-- end of THIS -->
+
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">

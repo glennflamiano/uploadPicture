@@ -74,6 +74,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({ secret: config.secret, resave: false, saveUninitialized: true }));
  
+
+//THIS added by dyano for uploading image please change variable names
+var superhero = require('./services/superhero')();
+app.route('/superhero')
+    .post(superhero.post)
+    .get(superhero.getAll);
+app.route('/superhero/:id')
+    .get(superhero.getOne);
+//end of THIS
+
+
 // use JWT auth to secure the api   // edited by dyan0: added '/api/users/emailOn'
 app.use('/api', expressJwt({ secret: config.secret }).unless({ path: ['/api/users/authenticate', '/api/users/register', '/api/users/emailOn'] }));
  

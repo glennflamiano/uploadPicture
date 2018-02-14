@@ -2,14 +2,14 @@
     'use strict';
  
     angular
-        .module('app', ['ui.router', 'ui.sortable', 'ngSanitize', 'ngCsv', 'ui.bootstrap', 'btford.socket-io'])
+        .module('app', ['ui.router', 'ui.sortable', 'ngSanitize', 'ngCsv', 'ui.bootstrap', 'btford.socket-io', 'angular-filepicker'])
         .config(config)
         .run(run);
  
-    function config($stateProvider, $urlRouterProvider, $httpProvider) {
+    function config($stateProvider, $urlRouterProvider, $httpProvider, filepickerProvider) {
         // default route
         $urlRouterProvider.otherwise("/");
- 
+        
         $stateProvider
             .state('home', {
                 url: '/',
@@ -62,6 +62,9 @@
                 data: {activeTab: 'fields'}
             });
 
+        //Add the API key to use filestack service -- added by dyan0
+        filepickerProvider.setKey('A9oJJK1I8QSCvhFQpJzyGz');    
+        
 
         // added by jeremy
         // this is to intercept all errors. when 401 is received, must redirect to login
